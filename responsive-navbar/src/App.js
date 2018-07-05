@@ -1,18 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import SideDrawer from './/components/SideDrawer/SideDrawer'
+import BackDrop from './/components/BackDrop/BackDrop'
+import Toolbar from './components/Toolbar/Toolbar'
+import sideDrawer from './/components/SideDrawer/SideDrawer';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      sideDrawerOpen: false
+    }    
+  }
+  drawerClickHandler =()=>{
+    this.setState((prevState) => {
+      return {sideDrawerOpen: !prevState.sideDrawerOpen}
+    })
+  };
+
+  backDropClickHandler= () =>{
+    this.setState({sideDrawerOpen:false})
+  }
   render() {
+    let sideDrawer;
+    let backDrop;
+
+    if(this.state.sideDrawerOpen){      
+      backDrop = <BackDrop backdropClickHandler ={this.backDropClickHandler} />;
+    };
+    
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div style={{height: '100%'}}>
+        <Toolbar drawerClickHandler = {this.drawerClickHandler} />
+        <SideDrawer show={this.state.sideDrawerOpen} />
+        {backDrop}
+        
+        <main style={{marginTop: "64px"}}>
+          <p>This is the page content!</p>
+        </main>
       </div>
     );
   }
